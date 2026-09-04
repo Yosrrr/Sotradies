@@ -2,12 +2,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const { signIn } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -20,7 +22,10 @@ export default function LoginPage() {
       navigate("/");
     } catch (err) {
       const backendMessage = err.response?.data?.detail;
-      setError(backendMessage || "Connexion impossible — vérifiez l'adresse e-mail et le mot de passe.");
+      setError(
+        backendMessage ||
+          "Connexion impossible — vérifiez l'adresse e-mail et le mot de passe."
+      );
     } finally {
       setLoading(false);
     }
@@ -42,7 +47,9 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-ink-900">Adresse e-mail</label>
+            <label className="mb-1 block text-sm font-medium text-ink-900">
+              Adresse e-mail
+            </label>
             <input
               type="email"
               required
@@ -52,16 +59,30 @@ export default function LoginPage() {
               placeholder="prenom.nom@sotradies.tn"
             />
           </div>
+
           <div>
-            <label className="mb-1 block text-sm font-medium text-ink-900">Mot de passe</label>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-ink-700"
-            />
+            <label className="mb-1 block text-sm font-medium text-ink-900">
+              Mot de passe
+            </label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 pr-10 text-sm focus:border-ink-700"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
+
           <button
             type="submit"
             disabled={loading}
