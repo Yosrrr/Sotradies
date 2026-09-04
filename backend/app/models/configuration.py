@@ -44,8 +44,8 @@ class Configuration(Base):
     # ===== Assignation commerciale (Layer 7) =====
     # Format: {
     #   "MATERIEL_ROULANT": ["Ramzi Trabelsi"],
-    #   "ENGINS_TP": ["Zied Hajji"],
-    #   "MANUTENTION": ["Salah Gharbi"],
+    #   "ENGINS_TP": ["Ramzi Trabelsi"],
+    #   "MANUTENTION": ["Ramzi Trabelsi"],
     #   ...
     # }
     assignment_rules = Column(JSONB, nullable=False, default=dict)

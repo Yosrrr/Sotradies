@@ -25,7 +25,7 @@ CATEGORIES = {
         ],
     },
     "ENGINS_TP": {
-        "commercial": "Zied Hajji",
+        "commercial": "Ramzi Trabelsi",
         "marques": ["CASE", "HAMM", "Wirtgen", "Kleemann", "Schwing Stetter"],
         "keywords": [
             "tractopelle", "chargeuse", "pelle hydraulique", "niveleuse",
@@ -34,7 +34,7 @@ CATEGORIES = {
         ],
     },
     "MANUTENTION": {
-        "commercial": "Salah Gharbi",
+        "commercial": "Ramzi Trabelsi",
         "marques": ["Hyster", "CG Est Manutention"],
         "keywords": [
             "chariot", "chariot elevateur", "transpalette",
@@ -43,15 +43,11 @@ CATEGORIES = {
         ],
     },
     "ENGINS_SPECIAUX": {
-        "commercial": None,  # ⚠️ à confirmer avec le client
+        "commercial": "Ramzi Trabelsi",  # ⚠️ à confirmer avec le client
         "marques": [],
         "keywords": ["engin special"],
     },
-    "GROUPES_ELECTROGENES": {
-        "commercial": None,  # ⚠️ à confirmer avec le client
-        "marques": ["ALMIG", "Himoinsa"],
-        "keywords": ["groupe electrogene", "compresseur", "installation electrique"],
-    },
+   
 }
 
 # Mots-clés qui excluent systématiquement un marché, quelle que soit la catégorie
