@@ -17,13 +17,13 @@ class Settings(BaseSettings):
     JWT_EXPIRE_MINUTES: int = 480  # 8h — une journée de travail
 
     CACHE_REDIS_URL: str = "redis://localhost:6379/2"
+
     
-    ADMIN_ALERT_EMAIL: str = "alertes@sotradies.tn"    
-    SMTP_HOST: str = "smtp.gmail.com"
+    SMTP_HOST: str = "smtp.mail.ovh.net"
     SMTP_PORT: int = 587
     SMTP_USER: str = ""
     SMTP_PASSWORD: str = ""
-    SENDER_EMAIL: str = "veille-ao@sotradies.tn"
+    SENDER_EMAIL: str = ""
 
     OLLAMA_MODEL: str = "qwen2.5:3b-instruct"
     OLLAMA_HOST: str = "http://localhost:11434"
