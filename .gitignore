@@ -37,7 +37,7 @@ dist/
 *.txt
 
 backend/dump.rdb
-
+*.rdb
 backend/debug_tuneps/
 backend/debug_tuneps_detail/
 backend/debug_*.html

@@ -21,7 +21,8 @@ CATEGORIES = {
         "keywords": [
             "camion", "camionnette", "poids lourd", "vehicule utilitaire",
             "tracteur routier", "benne", "citerne", "fourgon",
-            "materiel roulant", "autobus", "autocar",
+            "materiel roulant", "autobus", "autocar"
+            
         ],
     },
     "ENGINS_TP": {
