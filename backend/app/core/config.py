@@ -33,6 +33,10 @@ class Settings(BaseSettings):
 
     TUNEPS_USERNAME: str = ""
     TUNEPS_PASSWORD: str = ""
+    # Certificat TUNEPS (.p12) — fourni par le client
+    TUNEPS_CERT_PATH: str = ""          # chemin vers le fichier .p12
+    TUNEPS_CERT_PASSWORD: str = ""      # mot de passe du certificat
+
    
     
     

@@ -43,5 +43,8 @@ backend/debug_tuneps_detail/
 backend/debug_*.html
 backend/debug_*.png
 backend/email_previews/
+*.p12
+*.pfx
+app/certs/
 
 
