@@ -33,9 +33,7 @@ class Settings(BaseSettings):
 
     TUNEPS_USERNAME: str = ""
     TUNEPS_PASSWORD: str = ""
-    
-    APPELOFFRES_USERNAME: str = ""
-    APPELOFFRES_PASSWORD: str = ""
+   
     
     
     

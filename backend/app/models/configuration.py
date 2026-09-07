@@ -36,7 +36,6 @@ class Configuration(Base):
     # ===== Sources de scraping actives (Layer 1) =====
     # Format: {
     #   "tuneps": {"actif": true, "frquence": "daily"},
-    #   "tunisie_appel_offre": {"actif": true, "frequence": "daily"},
     #   "observatoire_national": {"actif": false, "frequence": "daily"}
     # }
     active_sources = Column(JSONB, nullable=False, default=dict)

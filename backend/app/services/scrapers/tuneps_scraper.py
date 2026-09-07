@@ -8,7 +8,6 @@ Avantages vs navigateur :
 - pas de Playwright en production pour cette source ;
 - rapide (~1 s par page de 100 avis) ;
 - le nom de l'acheteur (bidInstNm) est PUBLIC → matching Layer 5 possible
-  (contrairement à appeloffres.com).
 
 Structure de réponse :
     {"code": "200", "payload": {"data": [...], "total": N}}

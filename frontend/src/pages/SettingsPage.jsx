@@ -21,7 +21,7 @@ import {
 
 const SOURCES = [
   { id: "onmp", label: "ONMP — marchespublics.gov.tn", disabled: false },
-  { id: "appeloffres", label: "appeloffres.com", disabled: false },
+
   { id: "tuneps", label: "TUNEPS — tuneps.tn", disabled: false },
 ];
 

@@ -37,7 +37,7 @@ from app.core.database import session_scope
 from app.models.sotradies import Sotradies
 from app.services.scrapers.onmp_scraper import OnmpScraper
 from app.services.scrapers.tuneps_scraper import TunepsScraper
-from app.services.scrapers.appeloffres_scraper import AppeloffresScraper
+
 from app.services.buyer_matcher import match_buyer
 from app.services.config_service import get_or_create_config
 from app.services.detail_fetcher import fetch_detail_text
@@ -131,7 +131,6 @@ def _source_is_active(active_sources: dict, source_name: str) -> bool:
         return True
     aliases = {
         "onmp": ("onmp", "observatoire_national"),
-        "appeloffres": ("appeloffres", "tunisie_appel_offre"),
         "tuneps": ("tuneps", "tuneps.tn"),
     }
     keys = aliases.get(source_name, (source_name,))
@@ -155,7 +154,7 @@ def run_pipeline(target_date: date | None = None) -> dict:
     print(f"[pipeline] Run ID : {run_id}")
     print(f"[pipeline] Date ciblée : {target_date.isoformat()}")
 
-    scrapers = [OnmpScraper(), AppeloffresScraper(), TunepsScraper()]
+    scrapers = [OnmpScraper(),  TunepsScraper()]
 
     total_nouveaux, total_doublons, total_hors_date, total_sans_date = 0, 0, 0, 0
     ai_errors = 0  # échecs techniques IA (extraction) — pour l'alerte anti-silence

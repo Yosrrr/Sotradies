@@ -37,7 +37,7 @@ class Sotradies(Base):
 
     # --- Nouveaux détails extraits par l'IA (Layer 6, complément) ---
     type_marche = Column(String(50), nullable=True)              # "Fournitures" | "Travaux" | "Services"
-    procedure_passation = Column(String(150), nullable=True)     # ex: "Appel d'offres ouvert"
+    procedure_passation = Column(String(150), nullable=True)     # ex:  ouvert"
     region_execution = Column(String(150), nullable=True)
     date_debut_execution = Column(Date, nullable=True)
     date_ouverture_offres = Column(Date, nullable=True)
