@@ -1,6 +1,11 @@
 // src/utils/scoreDetails.js
-// Miroir de extract_best_score côté backend (app/schemas/tender.py).
-// score_details a la forme : {"MATERIEL_ROULANT": {"score": 90, "mots_cles_matches": [...]}, ...}
+//
+// Extrait le meilleur score et la catégorie dominante depuis score_details.
+// Fonctionne avec n'importe quelle catégorie (dynamique depuis la config admin).
+//
+// Format de score_details :
+// { "NOM_CATEGORIE": { "score": 90, "mots_cles_matches": [...] }, ... }
+
 export function extractScoreInfo(scoreDetails) {
   if (!scoreDetails || typeof scoreDetails !== "object") {
     return { hasScore: false, score: 0, topCategory: null };
@@ -12,8 +17,8 @@ export function extractScoreInfo(scoreDetails) {
       typeof value === "number"
         ? value
         : value && typeof value === "object" && typeof value.score === "number"
-        ? value.score
-        : null;
+          ? value.score
+          : null;
 
     if (numericScore !== null && (best === null || numericScore > best.score)) {
       best = { category, score: numericScore };

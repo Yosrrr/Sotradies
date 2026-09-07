@@ -1,7 +1,6 @@
 // src/utils/categories.js
-// Miroir de app/core/keywords.py (CATEGORIES) — à garder synchronisé
-// si les catégories changent côté backend.
-export const CATEGORY_LABELS = {
+
+const KNOWN_LABELS = {
   MATERIEL_ROULANT: "Matériel roulant",
   ENGINS_TP: "Engins TP",
   MANUTENTION: "Manutention",
@@ -9,6 +8,18 @@ export const CATEGORY_LABELS = {
   GROUPES_ELECTROGENES: "Groupes électrogènes",
 };
 
+// Export pour compatibilité avec les composants existants
+export const CATEGORY_LABELS = KNOWN_LABELS;
+
 export function categoryLabel(key) {
-  return CATEGORY_LABELS[key] ?? key ?? "—";
+  if (!key) return "—";
+
+  if (KNOWN_LABELS[key]) {
+    return KNOWN_LABELS[key];
+  }
+
+  return key
+    .replace(/_/g, " ")
+    .toLowerCase()
+    .replace(/^\w/, (c) => c.toUpperCase());
 }

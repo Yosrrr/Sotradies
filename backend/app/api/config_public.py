@@ -18,3 +18,15 @@ def get_thresholds(db: Session = Depends(get_db), user=Depends(get_current_user)
         "score_decision_threshold": config.score_decision_threshold,
         "score_instant_alert_threshold": config.score_instant_alert_threshold,
     }
+@router.get("/config/categories")
+def get_categories(db: Session = Depends(get_db), user=Depends(get_current_user)):
+    """Catégories actives (id + libellé) pour les filtres et l'affichage frontend."""
+    config = get_or_create_config(db)
+    return [
+        {
+            "id": cat_id,
+            "label": data.get("label") or cat_id.replace("_", " ").capitalize(),
+            "commercial": data.get("commercial"),
+        }
+        for cat_id, data in (config.categories or {}).items()
+    ]
