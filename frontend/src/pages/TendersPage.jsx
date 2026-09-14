@@ -51,6 +51,20 @@ export default function TendersPage() {
         value={filters}
         onChange={setFilters}
       />
+      {/* Tri */}
+<div className="mb-4 flex items-center gap-3">
+  <label className="text-sm font-medium text-slate-700">Trier par :</label>
+  <select
+    value={filters.sort || "date_limite"}
+    onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
+    className="rounded-lg border border-slate-200 px-3 py-2 text-sm"
+  >
+    <option value="date_limite">Date limite ↑ (plus proche)</option>
+    <option value="date_publication">Date publication ↓ (récent)</option>
+    <option value="date_detection">Date détection ↓ (récent)</option>
+    <option value="score">Score ↓ (pertinent)</option>
+  </select>
+</div>
 
       {/* Chargement */}
       {isLoading && (

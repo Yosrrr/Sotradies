@@ -2,6 +2,8 @@ from datetime import datetime, UTC
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
+from sqlalchemy import asc, desc
+
 from app.core.database import get_db
 from app.core.config import settings
 from app.models.sotradies import Sotradies
@@ -14,10 +16,10 @@ router = APIRouter(prefix="/tenders", tags=["tenders"])
 
 
 class TenderStatusUpdate(BaseModel):
-    statut: str  # "nouveau" | "retenu" | "sans_suite"
+    statut: str
 
 
-def _filtered_tenders(db, search, commercial, statut, categorie, score_min, include_rejected):
+def _filtered_tenders(db, search, commercial, statut, categorie, score_min, include_rejected, sort="date_limite"):
     query = db.query(Sotradies)
 
     if search:
@@ -28,8 +30,20 @@ def _filtered_tenders(db, search, commercial, statut, categorie, score_min, incl
     if statut and statut != "Tous":
         query = query.filter(Sotradies.statut == statut)
 
-    results = query.order_by(Sotradies.date_detection.desc()).all()
+    # Tri configurable
+    if sort == "date_publication":
+        query = query.order_by(desc(Sotradies.date_publication).nulls_last())
+    elif sort == "date_detection":
+        query = query.order_by(desc(Sotradies.date_detection))
+    else:
+        query = query.order_by(asc(Sotradies.date_limite).nulls_last())
+
+    results = query.all()
     out = [to_tender_out(t) for t in results]
+
+    # Tri par score (calculé depuis score_details)
+    if sort == "score":
+        out.sort(key=lambda t: t.score, reverse=True)
 
     if score_min is not None:
         out = [t for t in out if t.score >= score_min]
@@ -50,10 +64,11 @@ def list_tenders(
     categorie: str | None = Query(None),
     score_min: int | None = Query(None),
     include_rejected: bool = Query(False),
+    sort: str = Query("date_limite"),
     db: Session = Depends(get_db),
     user=Depends(get_current_user),
 ):
-    return _filtered_tenders(db, search, commercial, statut, categorie, score_min, include_rejected)
+    return _filtered_tenders(db, search, commercial, statut, categorie, score_min, include_rejected, sort)
 
 
 @router.get("/export")
@@ -65,10 +80,11 @@ def export_tenders(
     categorie: str | None = Query(None),
     score_min: int | None = Query(None),
     include_rejected: bool = Query(False),
+    sort: str = Query("date_limite"),
     db: Session = Depends(get_db),
     user=Depends(get_current_user),
 ):
-    tenders = _filtered_tenders(db, search, commercial, statut, categorie, score_min, include_rejected)
+    tenders = _filtered_tenders(db, search, commercial, statut, categorie, score_min, include_rejected, sort)
 
     date_str = datetime.now(UTC).replace(tzinfo=None).strftime("%Y%m%d")
     if format == "xlsx":
@@ -88,9 +104,26 @@ def export_tenders(
 
 
 @router.get("/rejected", response_model=list[TenderOut])
-def list_rejected_tenders(db: Session = Depends(get_db), user=Depends(get_current_user)):
-    results = db.query(Sotradies).order_by(Sotradies.date_detection.desc()).all()
+def list_rejected_tenders(
+    sort: str = Query("date_limite"),
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user),
+):
+    query = db.query(Sotradies)
+
+    if sort == "date_publication":
+        query = query.order_by(desc(Sotradies.date_publication).nulls_last())
+    elif sort == "date_detection":
+        query = query.order_by(desc(Sotradies.date_detection))
+    else:
+        query = query.order_by(asc(Sotradies.date_limite).nulls_last())
+
+    results = query.all()
     out = [to_tender_out(t) for t in results]
+
+    if sort == "score":
+        out.sort(key=lambda t: t.score, reverse=True)
+
     return [t for t in out if t.score < settings.RELEVANCE_RETAIN_THRESHOLD and t.statut != "retenu"]
 
 
